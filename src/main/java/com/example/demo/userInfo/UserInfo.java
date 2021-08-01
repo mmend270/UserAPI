@@ -1,10 +1,9 @@
-package com.example.demo.appuser;
+package com.example.demo.userInfo;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,16 +23,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @NoArgsConstructor
 @Entity
 
-public class AppUser implements UserDetails {
+public class UserInfo implements UserDetails {
     @SequenceGenerator(
-            name = "users",
-            sequenceName = "users",
+            name = "student_sequence",
+            sequenceName = "student_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "users"
+            generator = "student_sequence"
     )
     private Long id;
     private String firstName;
@@ -46,7 +45,7 @@ public class AppUser implements UserDetails {
     private Boolean enabled = false;
     private String homeAddress;
 
-    public AppUser(String firstName, String lastName, String email, String password, String homeAddress, UserRole userRole) {
+    public UserInfo(String firstName, String lastName, String email, String password, String homeAddress, UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -65,19 +64,21 @@ public class AppUser implements UserDetails {
     public String getPassword() {
         return password;
     }
-
+    @Override
     public String getUsername() {
         return email;
     }
 
-    public Optional<String> getFirstName() { return Optional.ofNullable(firstName); }
-
-    public Optional<String> getLastName() {
-        return Optional.ofNullable(lastName);
+    public String getFirstName() {
+        return firstName;
     }
 
-    public Optional<String> getHomeAddress() {
-        return Optional.ofNullable(homeAddress);
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
     }
 
     @Override
